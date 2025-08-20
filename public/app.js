@@ -18,7 +18,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Rate limiting simple - verificar si ya generó una presentación recientemente
+        const lastGeneration = localStorage.getItem('lastGeneration');
+        const now = Date.now();
+        const cooldownTime = 30000; // 30 segundos
+
+        if (lastGeneration && (now - parseInt(lastGeneration)) < cooldownTime) {
+            const remainingTime = Math.ceil((cooldownTime - (now - parseInt(lastGeneration))) / 1000);
+            showError(`Por favor espera ${remainingTime} segundos antes de generar otra presentación.`);
+            return;
+        }
+
         try {
+            // Guardar timestamp de esta generación
+            localStorage.setItem('lastGeneration', now.toString());
             showLoading();
             
             const response = await fetch('/api/generate-presentation', {
@@ -176,6 +189,26 @@ function resetForm() {
     errorSection.style.display = 'none';
     
     topicInput.focus();
+    updateButtonState();
+}
+
+function updateButtonState() {
+    const generateBtn = document.getElementById('generateBtn');
+    const lastGeneration = localStorage.getItem('lastGeneration');
+    const now = Date.now();
+    const cooldownTime = 30000; // 30 segundos
+
+    if (lastGeneration && (now - parseInt(lastGeneration)) < cooldownTime) {
+        const remainingTime = Math.ceil((cooldownTime - (now - parseInt(lastGeneration))) / 1000);
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = `<i class="fas fa-clock me-2"></i>Espera ${remainingTime}s`;
+        
+        // Actualizar cada segundo
+        setTimeout(updateButtonState, 1000);
+    } else {
+        generateBtn.disabled = false;
+        generateBtn.innerHTML = '<i class="fas fa-magic me-2"></i>Generar Presentación';
+    }
 }
 
 // Health check on page load
@@ -187,4 +220,7 @@ window.addEventListener('load', async function() {
     } catch (error) {
         console.warn('No se pudo conectar con el servidor:', error);
     }
+    
+    // Verificar estado del botón al cargar la página
+    updateButtonState();
 });
