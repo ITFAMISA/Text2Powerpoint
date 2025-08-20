@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Presentaciones PowerPoint con IA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid bg-gradient-primary min-vh-100 d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="card shadow-lg border-0 rounded-lg">
+                        <div class="card-header bg-primary text-white text-center py-4">
+                            <h1 class="display-6 mb-0">
+                                <i class="fas fa-presentation me-3"></i>
+                                Generador de Presentaciones PowerPoint
+                            </h1>
+                            <p class="lead mb-0">Powered by Gemini AI</p>
+                        </div>
+                        <div class="card-body p-5">
+                            <form id="presentationForm">
+                                <div class="mb-4">
+                                    <label for="topic" class="form-label h5">
+                                        <i class="fas fa-lightbulb me-2 text-warning"></i>
+                                        Tema o Texto para la Presentación
+                                    </label>
+                                    <textarea 
+                                        class="form-control form-control-lg" 
+                                        id="topic" 
+                                        name="topic" 
+                                        rows="4" 
+                                        placeholder="Describe el tema sobre el que quieres crear tu presentación. Por ejemplo: 'Inteligencia Artificial en la medicina', 'Historia de la programación', 'Marketing digital para pequeñas empresas'..."
+                                        required
+                                    ></textarea>
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Proporciona un tema específico para obtener mejores resultados
+                                    </div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg" id="generateBtn">
+                                        <i class="fas fa-magic me-2"></i>
+                                        Generar Presentación
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Loading State -->
+                            <div id="loadingSection" class="text-center mt-4" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="mt-3 text-muted">
+                                    <i class="fas fa-robot me-2"></i>
+                                    La IA está generando tu presentación...
+                                </p>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                         role="progressbar" style="width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Result Section -->
+                            <div id="resultSection" class="mt-4" style="display: none;">
+                                <div class="alert alert-success" role="alert">
+                                    <h5 class="alert-heading">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        ¡Presentación Generada Exitosamente!
+                                    </h5>
+                                    <p class="mb-3">Tu presentación PowerPoint ha sido creada y está lista para descargar.</p>
+                                    <hr>
+                                    <div class="d-grid gap-2">
+                                        <a id="downloadLink" class="btn btn-success btn-lg" href="#" download>
+                                            <i class="fas fa-download me-2"></i>
+                                            Descargar Presentación PowerPoint
+                                        </a>
+                                        <button type="button" class="btn btn-outline-primary" onclick="resetForm()">
+                                            <i class="fas fa-plus me-2"></i>
+                                            Crear Nueva Presentación
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Preview Section -->
+                                <div class="mt-4">
+                                    <h6 class="text-muted">Vista Previa del Contenido:</h6>
+                                    <div id="previewContent" class="bg-light p-3 rounded">
+                                        <!-- Content will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Error Section -->
+                            <div id="errorSection" class="mt-4" style="display: none;">
+                                <div class="alert alert-danger" role="alert">
+                                    <h5 class="alert-heading">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Error al Generar la Presentación
+                                    </h5>
+                                    <p id="errorMessage" class="mb-0"></p>
+                                    <hr>
+                                    <button type="button" class="btn btn-outline-danger" onclick="resetForm()">
+                                        <i class="fas fa-redo me-2"></i>
+                                        Intentar de Nuevo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center text-muted py-3">
+                            <small>
+                                <i class="fas fa-robot me-1"></i>
+                                Generado con Gemini AI | 
+                                <i class="fas fa-file-powerpoint me-1 text-danger"></i>
+                                PowerPoint Generator
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
